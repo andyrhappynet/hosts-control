@@ -1,0 +1,23 @@
+# BLOQUEOS - GRUPO VENTAS
+# Restricción máxima
+
+# Redes Sociales
+127.0.0.1 facebook.com
+127.0.0.1 www.facebook.com
+127.0.0.1 instagram.com
+127.0.0.1 www.instagram.com
+127.0.0.1 twitter.com
+127.0.0.1 tiktok.com
+127.0.0.1 www.tiktok.com
+127.0.0.1 linkedin.com
+
+# Streaming
+127.0.0.1 youtube.com
+127.0.0.1 www.youtube.com
+127.0.0.1 netflix.com
+127.0.0.1 twitch.tv
+
+# Juegos
+127.0.0.1 discord.com
+127.0.0.1 epicgames.com
+127.0.0.1 steampowered.com
