@@ -11,6 +11,11 @@
 127.0.0.1 www.tiktok.com
 127.0.0.1 linkedin.com
 
+# CRM
+0.0.0.0 crm24.co
+0.0.0.0 crunchyroll.com
+
+
 # Streaming
 127.0.0.1 youtube.com
 127.0.0.1 www.youtube.com
