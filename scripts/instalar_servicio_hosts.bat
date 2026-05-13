@@ -39,7 +39,10 @@ if "%OPCION%"=="2" set GRUPO=retencion
 if "%OPCION%"=="3" set GRUPO=administracion
 if "%OPCION%"=="4" set GRUPO=calidad
 
-echo %GRUPO% > "%ProgramData%\HostsSync\grupo_actual.txt"
+REM Eliminar posibles espacios al final
+set GRUPO=%GRUPO: =%
+
+echo %GRUPO%> "%ProgramData%\HostsSync\grupo_actual.txt"
 echo [OK] Grupo asignado: %GRUPO%
 
 schtasks /create /tn "HostsSync" /tr "C:\ProgramData\HostsSync\hosts_sync.bat" /sc onstart /ru SYSTEM /f >nul 2>&1
