@@ -1,27 +1,2 @@
-# BLOQUEOS - GRUPO VENTAS
-# Restricción máxima
-
-# Redes Sociales
-0.0.0.0 facebook.com
-0.0.0.0 www.facebook.com
-0.0.0.0 instagram.com
-0.0.0.0 www.instagram.com
-0.0.0.0 twitter.com
-0.0.0.0 tiktok.com
-0.0.0.0 www.tiktok.com
-0.0.0.0 linkedin.com
-
-# Streaming
-0.0.0.0 youtube.com
-0.0.0.0 www.youtube.com
-0.0.0.0 netflix.com
-0.0.0.0 www.netflix.com
-0.0.0.0 twitch.tv
-0.0.0.0 crunchyroll.com
-0.0.0.0 www.crunchyroll.com
-0.0.0.0 crunchyroll.com/es-es
-
-# Juegos
-0.0.0.0 discord.com
-0.0.0.0 epicgames.com
-0.0.0.0 steampowered.com
+# Prueba de validacion
+0.0.0.0 validaciondesdecambio.com
