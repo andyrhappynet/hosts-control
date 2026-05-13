@@ -1,0 +1,18 @@
+# BLOQUEOS - GRUPO RETENCION
+# Restricción moderada
+
+# Redes Sociales (bloqueo parcial)
+127.0.0.1 tiktok.com
+127.0.0.1 www.tiktok.com
+127.0.0.1 snapchat.com
+
+# Streaming (solo Netflix y Twitch bloqueados)
+127.0.0.1 netflix.com
+127.0.0.1 twitch.tv
+
+# Juegos
+127.0.0.1 discord.com
+127.0.0.1 epicgames.com
+127.0.0.1 steampowered.com
+
+# Permitidos: Facebook, Instagram, Twitter, YouTube
