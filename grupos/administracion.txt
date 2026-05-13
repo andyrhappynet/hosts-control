@@ -1,0 +1,8 @@
+# BLOQUEOS - GRUPO ADMINISTRACION
+# Restricción mínima
+
+# Solo bloqueos de seguridad
+127.0.0.1 malware.com
+127.0.0.1 phishing-site.com
+
+# Sin bloqueos de redes sociales, streaming o juegos
