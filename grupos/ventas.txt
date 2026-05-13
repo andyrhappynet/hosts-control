@@ -14,7 +14,7 @@
 # CRM
 0.0.0.0 crm24.co
 0.0.0.0 crunchyroll.com
-
+0.0.0.0 crunchyroll.com/es-es
 
 # Streaming
 127.0.0.1 youtube.com
