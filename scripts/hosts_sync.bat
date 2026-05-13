@@ -16,9 +16,7 @@ call :WriteLog "Fecha: %date% %time%"
 set "GRUPO_FILE=%ProgramData%\HostsSync\grupo_actual.txt"
 if exist "%GRUPO_FILE%" (
     set /p GRUPO=<"%GRUPO_FILE%"
-    REM Limpiar espacios y caracteres ocultos
     set GRUPO=!GRUPO: =!
-    set GRUPO=!GRUPO:    =!
     call :WriteLog "Grupo activo: [%GRUPO%]"
 ) else (
     set GRUPO=ventas
@@ -26,10 +24,9 @@ if exist "%GRUPO_FILE%" (
     call :WriteLog "Grupo por defecto: VENTAS"
 )
 
-REM Validar que GRUPO no esté vacío
 if "!GRUPO!"=="" (
-    call :WriteLog "ERROR: Grupo vacio, usando ventas por defecto"
     set GRUPO=ventas
+    call :WriteLog "Grupo vacio, usando VENTAS"
 )
 
 set "HOSTS_URL=%BASE_URL%/%GRUPO%.txt"
@@ -48,35 +45,47 @@ if not exist "%HOSTS_TEMP%" (
     goto :error
 )
 
-call :WriteLog "OK: Archivo descargado"
+call :WriteLog "OK: Archivo descargado desde GitHub"
 
 set "HOSTS_FILE=C:\Windows\System32\drivers\etc\hosts"
-set "HOSTS_BACKUP=%HOSTS_FILE%.backup"
+set "HOSTS_BACKUP=%USERPROFILE%\Desktop\hosts_backup_%date:~0,2%%date:~3,2%%date:~8,4%_%time:~0,2%%time:~3,2%.txt"
 
-attrib -r "%HOSTS_FILE%" >nul 2>&1
+REM Hacer backup
 copy "%HOSTS_FILE%" "%HOSTS_BACKUP%" >nul 2>&1
+call :WriteLog "Backup guardado en: %HOSTS_BACKUP%"
 
-REM Eliminar bloqueos anteriores
-findstr /v /c:"# BLOQUEOS HOSTS CONTROL" "%HOSTS_BACKUP%" > "%HOSTS_FILE%.nuevo" 2>nul
+REM Quitar solo lectura
+attrib -r "%HOSTS_FILE%" >nul 2>&1
 
-REM Agregar nuevos bloqueos
-echo. >> "%HOSTS_FILE%.nuevo"
-echo # BLOQUEOS HOSTS CONTROL - %date% %time% >> "%HOSTS_FILE%.nuevo"
-echo # Grupo: %GRUPO% >> "%HOSTS_FILE%.nuevo"
-echo. >> "%HOSTS_FILE%.nuevo"
+REM Crear NUEVO archivo hosts solo con lineas del sistema (sin bloqueos viejos)
+findstr /v /c:"127.0.0.1" /v /c:"0.0.0.0" "%HOSTS_FILE%" > "%HOSTS_FILE%.base" 2>nul
 
+REM Agregar los NUEVOS bloqueos desde GitHub
+echo. >> "%HOSTS_FILE%.base"
+echo # ======================================== >> "%HOSTS_FILE%.base"
+echo # BLOQUEOS HOSTS CONTROL - %date% %time% >> "%HOSTS_FILE%.base"
+echo # Grupo: %GRUPO% - Desde GitHub >> "%HOSTS_FILE%.base"
+echo # ======================================== >> "%HOSTS_FILE%.base"
+echo. >> "%HOSTS_FILE%.base"
+
+REM Agregar CADA linea del archivo descargado
 for /f "usebackq delims=" %%a in ("%HOSTS_TEMP%") do (
-    echo %%a >> "%HOSTS_FILE%.nuevo"
+    echo %%a >> "%HOSTS_FILE%.base"
 )
 
-move /y "%HOSTS_FILE%.nuevo" "%HOSTS_FILE%" >nul 2>&1
+REM Reemplazar el hosts original
+move /y "%HOSTS_FILE%.base" "%HOSTS_FILE%" >nul 2>&1
 
 if %errorLevel% equ 0 (
-    call :WriteLog "OK: Hosts actualizado"
+    call :WriteLog "OK: Hosts REEMPLAZADO exitosamente con bloqueos de GitHub"
     ipconfig /flushdns >nul 2>&1
     call :WriteLog "OK: DNS cache limpiado"
+    
+    REM Verificacion post-actualizacion
+    call :WriteLog "Verificando bloqueos aplicados:"
+    findstr "netflix" "%HOSTS_FILE%" >> "%LOG_FILE%" 2>nul
 ) else (
-    call :WriteLog "ERROR: No se pudo actualizar hosts"
+    call :WriteLog "ERROR CRITICO: No se pudo reemplazar el hosts"
 )
 
 :error
